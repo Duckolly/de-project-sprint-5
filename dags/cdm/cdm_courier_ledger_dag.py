@@ -1,4 +1,4 @@
-#version v.1.0.5
+#version v.1.0.6
 from airflow.decorators import dag, task
 from airflow.providers.postgres.operators.postgres  import PostgresOperator
 from datetime import datetime
