@@ -41,11 +41,11 @@ def load_from_stg_to_dds():
         courier_loader = CourierLoader(dwh_pg_connect, log)
         courier_loader.load_couriers()
 
-    # @task()
-    # def load_orders_task():
-    #     log.info(">>> add Orders to DDS")
-    #     order_loader = OrderLoader(dwh_pg_connect, log)
-    #     order_loader.load_orders()
+    @task()
+    def load_orders_task():
+        log.info(">>> add Orders to DDS")
+        order_loader = OrderLoader(dwh_pg_connect, log)
+        order_loader.load_orders()
 
     @task()
     def load_deliveries_task():
@@ -56,9 +56,9 @@ def load_from_stg_to_dds():
     timestamps  = load_timestamps_task()
     restaurants = load_restaurants_task()
     couriers    = load_couriers_task()
-    # orders      = load_orders_task()
+    orders      = load_orders_task()
     deliveries  = load_deliveries_task()
-# >> orders
-    [timestamps, restaurants, couriers]  >> deliveries
+     
+    [timestamps, restaurants, couriers]  >> orders >> deliveries
 
 load_stg_to_dds_dag = load_from_stg_to_dds()
