@@ -3,7 +3,7 @@ from airflow.decorators import dag, task
 from config_const import ConfigConst
 from repositories.pg_connect import ConnectionBuilder
 
-from cdm.settlement_report import SettlementReportLoader
+from cdm.to_cmd.settlement_report import SettlementLoader
 
 
 @dag(
@@ -17,8 +17,8 @@ def sprint5_case_cdm_settlement_report():
     @task
     def settlement_daily_report_load():
         dwh_pg_connect = ConnectionBuilder.pg_conn(ConfigConst.PG_WAREHOUSE_CONNECTION)
-        rest_loader = SettlementReportLoader(dwh_pg_connect)
-        rest_loader.load_report_by_days()
+        rest_loader = SettlementLoader(dwh_pg_connect)
+        rest_loader.load_data()
 
     settlement_daily_report_load()  # type: ignore
 

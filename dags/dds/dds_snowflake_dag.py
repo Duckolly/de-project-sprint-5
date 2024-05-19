@@ -6,7 +6,7 @@ from airflow.decorators import task
 from config_const import ConfigConst
 from lib import ConnectionBuilder
 
-from dds.dds_settings_repository import DdsEtlSettingsRepository
+from dds.dds_settings_repository import EtlSetting, DdsEtlSettingsRepository
 from dds.fct_products_loader import FctProductsLoader
 from dds.order_loader import OrderLoader
 from dds.products_loader import ProductLoader
@@ -21,13 +21,13 @@ from dds.dm_deliverys_loader import DeliverysLoader
 log = logging.getLogger(__name__)
 
 with DAG(
-    dag_id='sprint5_case_dds_snowflake',
+    DAG_id='sprint5_case_dds_snowflake',
     schedule_interval='0/15 * * * *',
     start_date=pendulum.datetime(2022, 5, 5, tz="UTC"),
     catchup=False,
     tags=['sprint5', 'raw', 'dds'],
     is_paused_upon_creation=False
-) as dag:
+) as DAG:
     dwh_pg_connect = ConnectionBuilder.pg_conn(ConfigConst.PG_WAREHOUSE_CONNECTION)
 
     settings_repository = DdsEtlSettingsRepository()
